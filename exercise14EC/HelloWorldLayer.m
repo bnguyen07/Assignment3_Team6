@@ -17,7 +17,7 @@ CCSprite *birdImage;
 int birdToLocationX;
 int birdToLocationY;
 int fontSize = 32;
-@synthesize bear = _bear;
+@synthesize tank = _tank;
 @synthesize moveAction = _moveAction;
 @synthesize walkAction = _walkAction;
 
@@ -78,23 +78,23 @@ int fontSize = 32;
         [[CCSpriteFrameCache sharedSpriteFrameCache] addSpriteFramesWithFile:@"AnimBear.plist"];
         
         // Create a sprite sheet with the Happy Bear images
-        CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"AnimBear.png"];
+        CCSpriteBatchNode *spriteSheet = [CCSpriteBatchNode batchNodeWithFile:@"tank.png"];
         [self addChild:spriteSheet];
         
         // Load up the frames of our animation
         NSMutableArray *walkAnimFrames = [NSMutableArray array];
         for(int i = 1; i <= 8; ++i) {
-            [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"bear%d.png", i]]];
+            [walkAnimFrames addObject:[[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:[NSString stringWithFormat:@"tank.png", i]]];
         }
         CCAnimation *walkAnim = [CCAnimation animationWithFrames:walkAnimFrames delay:0.1f];
         
         // Create a sprite for our bear
         CGSize winSize = [CCDirector sharedDirector].winSize;
-        self.bear = [CCSprite spriteWithSpriteFrameName:@"bear1.png"];
-        _bear.position = ccp(winSize.width/2, 73);
+        self.tank = [CCSprite spriteWithSpriteFrameName:@"tank.png"];
+        _tank.position = ccp(winSize.width/2, 73);
         self.walkAction = [CCRepeatForever actionWithAction:[CCAnimate actionWithAnimation:walkAnim restoreOriginalFrame:NO]];
         //[_bear runAction:_walkAction];
-        [spriteSheet addChild:_bear];
+        [spriteSheet addChild:_tank];
         
         self.isTouchEnabled = YES;
         
@@ -141,7 +141,7 @@ int fontSize = 32;
     temp.y = (temp.y - fallSpeed);
     eggImage.position = temp;
     //[self performSelector:@selector(fallEgg:) withObject:eggImage afterDelay:.005];
-    if(CGRectIntersectsRect(_bear.boundingBox, eggImage.boundingBox)){
+    if(CGRectIntersectsRect(_tank.boundingBox, eggImage.boundingBox)){
         [eggImage removeFromParentAndCleanup:YES];
         score = score + 10;
         [self updateScore];
@@ -207,37 +207,37 @@ int fontSize = 32;
     touchLocation = [[CCDirector sharedDirector] convertToGL: touchLocation];
     touchLocation = [self convertToNodeSpace:touchLocation];
     
-    float bearVelocity = 480.0/3.0;
-    CGPoint moveDifference = ccpSub(touchLocation, _bear.position);
+    float tankVelocity = 480.0/3.0;
+    CGPoint moveDifference = ccpSub(touchLocation, _tank.position);
     float distanceToMove = ccpLength(moveDifference);
-    float moveDuration = distanceToMove / bearVelocity;
+    float moveDuration = distanceToMove / tankVelocity;
     
     if (moveDifference.x < 0) {
-        _bear.flipX = NO;
+        _tank.flipX = NO;
     } else {
-        _bear.flipX = YES;
+        _tank.flipX = YES;
     }
     
-    [_bear stopAction:_moveAction];
+    [_tank stopAction:_moveAction];
     
     if (!_moving) {
-        [_bear runAction:_walkAction];
+        [_tank runAction:_walkAction];
     }
     
     self.moveAction = [CCSequence actions:
                        [CCMoveTo actionWithDuration:moveDuration position:touchLocation],
-                       [CCCallFunc actionWithTarget:self selector:@selector(bearMoveEnded)],
+                       [CCCallFunc actionWithTarget:self selector:@selector(tankMoveEnded)],
                        nil
                        ];
     
     
-    [_bear runAction:_moveAction];
+    [_tank runAction:_moveAction];
     _moving = TRUE;
     
 }
 
--(void)bearMoveEnded {
-    [_bear stopAction:_walkAction];
+-(void)tankMoveEnded {
+    [_tank stopAction:_walkAction];
     _moving = FALSE;
 }
 
