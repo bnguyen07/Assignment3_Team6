@@ -14,7 +14,7 @@
 // HelloWorldLayer
 @interface HelloWorldLayer : CCLayer
 {
-    CCSprite *_spaceShip;
+    CCSprite *_tank;
     CCAction *_walkAction;
     CCAction *_moveAction;
     CCLabelTTF *label;
@@ -26,7 +26,7 @@
 // returns a CCScene that contains the HelloWorldLayer as the only child
 +(CCScene *) scene;
 
-@property (nonatomic, retain) CCSprite *spaceShip;
+@property (nonatomic, retain) CCSprite *tank;
 @property (nonatomic, retain) CCAction *walkAction;
 @property (nonatomic, retain) CCAction *moveAction;
 
